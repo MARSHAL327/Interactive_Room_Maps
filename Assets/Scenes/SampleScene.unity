@@ -1232,6 +1232,7 @@ MonoBehaviour:
   - {fileID: 938532305038386119, guid: aefd19e284169ac4199ca0c2a4207358, type: 3}
   - {fileID: 938532305038386119, guid: 8ce03a8aa4d7f3142af7d34668276990, type: 3}
   - {fileID: 938532305038386119, guid: e7598c888ac95db4a9b577ef87c42232, type: 3}
+  - {fileID: 938532305038386119, guid: 31389791e988082429dcef76ed64fdc1, type: 3}
   parentCreatedElement: {fileID: 1233803182}
   roomPrefab: {fileID: 725698825764262136, guid: 4de4a11a4bb11074fa40ecd2c63dcd16,
     type: 3}
