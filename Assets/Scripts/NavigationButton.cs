@@ -10,10 +10,14 @@ public class NavigationButton : MonoBehaviour, IPointerClickHandler
     public Button scaleBtn;
     public Button rotateBtn;
     public Button deleteBtn;
+    public Button markBtn;
     public GameObject editPlane;
+    public GameObject MarkMenu;
 
     private Map Map;
+    private Room Room;
     private Button editableObject;
+    private Dropdown roomMarks;
     private bool editActive = false;
     private bool showNav = false;
 
@@ -21,6 +25,10 @@ public class NavigationButton : MonoBehaviour, IPointerClickHandler
     {
         Map = GameObject.Find("Map").GetComponent<Map>();
         editableObject = gameObject.GetComponent<Button>();
+        Room = gameObject.GetComponent<Room>();
+        roomMarks = MarkMenu.GetComponent<Dropdown>();
+
+        roomMarks.AddOptions(Room.GetAllMarks());
 
         deleteBtn.onClick.AddListener(() => {
             DeleteElement();
@@ -43,12 +51,15 @@ public class NavigationButton : MonoBehaviour, IPointerClickHandler
             }*/
 
             showNav = !showNav;
-            ToggleInterface(editableObject.gameObject, showNav);
+            ToggleInterface(showNav);
         });
 
-        /*editBtn.onClick.AddListener(() => {
-            ToggleEditElement();
-        });*/
+        roomMarks.onValueChanged.AddListener(delegate
+        {
+            Room.CreateMark(Room.GetAllMarks()[roomMarks.value - 1]);
+            Room.fieldMark();
+            ToggleInterface(false);
+        });
     }
 
     public void DeleteElement()
@@ -62,9 +73,10 @@ public class NavigationButton : MonoBehaviour, IPointerClickHandler
         gameObject.transform.Rotate(0f, 0f, 90f);
     }
 
-    public void ToggleInterface(GameObject whoseNav, bool isShow)
+    public void ToggleInterface(bool isShow)
     {
         navBtn.SetActive(isShow);
+        MarkMenu.SetActive(isShow);
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -79,7 +91,7 @@ public class NavigationButton : MonoBehaviour, IPointerClickHandler
     {
         if(gameObject.GetComponent<Element>().additionallyInfo.Count > 0)
         {
-            ToggleInterface(gameObject, false);
+            ToggleInterface(false);
             ToggleEditPlane(true);
         }
     }
