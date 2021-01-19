@@ -26,7 +26,11 @@ public class NavigationButton : MonoBehaviour, IPointerClickHandler
         Map = GameObject.Find("Map").GetComponent<Map>();
         editableObject = gameObject.GetComponent<Button>();
         Room = gameObject.GetComponent<Room>();
-        roomMarks = MarkMenu.GetComponent<Dropdown>();
+        if(TryGetComponent(out Room))
+        {
+            roomMarks = MarkMenu.GetComponent<Dropdown>();
+        } 
+        
 
         roomMarks.AddOptions(Room.GetAllMarks());
 
@@ -40,26 +44,19 @@ public class NavigationButton : MonoBehaviour, IPointerClickHandler
 
         editableObject.onClick.AddListener(() =>
         {
-            /*foreach (GameObject item in Map.GetAllElementsInScene())
-            {
-                bool thisNav = item.GetComponent<NavigationButton>().showNav;
-                if (thisNav == true)
-                {
-                    thisNav = false;
-                    ToggleInterface(item, thisNav);
-                }
-            }*/
-
             showNav = !showNav;
             ToggleInterface(showNav);
         });
 
-        roomMarks.onValueChanged.AddListener(delegate
+        if (TryGetComponent(out Room))
         {
-            Room.CreateMark(Room.GetAllMarks()[roomMarks.value - 1]);
-            Room.fieldMark();
-            ToggleInterface(false);
-        });
+            roomMarks.onValueChanged.AddListener(delegate
+            {
+                Room.CreateMark(Room.GetAllMarks()[roomMarks.value - 1]);
+                Room.fieldMark();
+                ToggleInterface(false);
+            });
+        }
     }
 
     public void DeleteElement()
@@ -76,7 +73,10 @@ public class NavigationButton : MonoBehaviour, IPointerClickHandler
     public void ToggleInterface(bool isShow)
     {
         navBtn.SetActive(isShow);
-        MarkMenu.SetActive(isShow);
+        if( TryGetComponent(out Room))
+        {
+            MarkMenu.SetActive(isShow);
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)

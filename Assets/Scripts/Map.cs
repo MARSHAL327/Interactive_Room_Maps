@@ -3,15 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public static class UserData
+{
+    public static string name;
+    public static string role;
+}
+
 public class Map : MonoBehaviour
 {
     public Dropdown dropdown;
     public List<GameObject> objects = new List<GameObject>();
-
     public Transform parentCreatedElement;
     public GameObject roomPrefab;
     public GameObject roomPointOnCreate;
-
+    public Text UserName;
 
     private GameObject selectedObject;
     private List<string> allElementNames = new List<string> { };
@@ -28,6 +33,8 @@ public class Map : MonoBehaviour
         }
         
         dropdown.AddOptions(allElementNames);
+
+        UserName.text = UserData.name;
     }
 
     void Update()
