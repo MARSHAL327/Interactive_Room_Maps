@@ -29,11 +29,9 @@ public class NavigationButton : MonoBehaviour, IPointerClickHandler
         if(TryGetComponent(out Room))
         {
             roomMarks = MarkMenu.GetComponent<Dropdown>();
+            roomMarks.AddOptions(Room.GetAllMarks());
         } 
         
-
-        roomMarks.AddOptions(Room.GetAllMarks());
-
         deleteBtn.onClick.AddListener(() => {
             DeleteElement();
         });
